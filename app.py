@@ -7,6 +7,7 @@ from Security import authenticate, identity
 from Resources.user import UserRegister
 from Resources.Destination import Destination, DestinationList
 from Resources.Region import Region, RegionList
+from db import db
 
 app = Flask(__name__)
 
