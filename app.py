@@ -1,4 +1,5 @@
-from flask import Flask
+from charset_normalizer import api
+from flask import Flask, app
 from flask_restful import Api
 from flask import Flask
 from flask_jwt import JWT
@@ -15,6 +16,22 @@ def create_app():
     api = Api(app) 
     return app
 
-app = create_app()
-if __name__ == '__main__' : 
-    app.run(debug=True)
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
+
+jwt = JWT(app, authenticate, identity)
+
+
+api.add_resource(Region, '/region/<string:name>')
+api.add_resource(Destination, '/destination/<string:name>')
+api.add_resource(DestinationList, '/destinations')
+api.add_resource(RegionList, '/regions')
+api.add_resource(UserRegister, '/register')
+
+if __name__ == '__main__':
+    from db import db
+    db.init_app(app)  
+    app.run(debug=True)  
