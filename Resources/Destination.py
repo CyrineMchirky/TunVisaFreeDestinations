@@ -23,39 +23,39 @@ class Destination(Resource):
         help="This field cannot be left blank! Please enter the region id for this destination."
     )
     
-    parser.add_argument('Visa_requirement',
-        type=String,
+    parser.add_argument('Visa_requirements',
+        type=str,
         required=True,
         help="This field cannot be left blank! Enter Visa requirements for this destination."
     )
     parser.add_argument('Allowed_stay',
-        type=String,
+        type=str,
         required=True,
         help="This field cannot be left blank! Enter how many days are allowed to stay without a visa in this destination."
     )
     parser.add_argument('budget',
-        type=String,
+        type=str,
         required=True,
         help="This field cannot be left blank!Add the budget per day for this destination."
     )
     parser.add_argument('vaccines',
-        type=String,
+        type=str,
         required=True,
         help="This field cannot be left blank! Enter the vaccines needed to access this destination."
     )
     parser.add_argument('airport',
-        type=String,
+        type=str,
         required=True,
         help="This field cannot be left blank! Enter the landing airport destination."
     )
 
     parser.add_argument('price',
-        type=Integer,
+        type=str,
         required=True,
         help="This field cannot be left blank! Enter airplane ticket price for this destination."
     )
     parser.add_argument('time_of_flight',
-        type=String,
+        type=str,
         required=True,
         help="This field cannot be left blank! Enter the flight time for this destination."
     )
@@ -70,13 +70,12 @@ class Destination(Resource):
 
 
     def post(self, name):
-        destination=DestinationModel.find_by_name(name)
+        print(self.parser.parse_args(), file=sys.stderr)
+        destination=DestinationModel.find_by_name(name) 
         if DestinationModel.find_by_name(name):
             return {'message': "This destination '{}' is already added.".format(name)}
 
-        data = destination.parser.parse_args()
-        
-        
+        data = self.parser.parse_args()
         destination  = DestinationModel(name, **data)
         
         try:
@@ -100,13 +99,15 @@ class Destination(Resource):
     @jwt_required()
     def put(self, name):
         
-        
+        print(self.parser.parse_args(), file=sys.stderr)
         destination = DestinationModel.find_by_name(name)
-        data = destination.parser.parse_args()
+        
         if destination is None:
-            
+            data = self.parser.parse_args()
             destination = DestinationModel(name, **data)
         else:
+            data = destination.parser.parse_args()
+            data = self.parser.parse_args()
             destination.Visa_requirements = data['Visa_requirements']
             destination.Allowed_stay = data['Allowed_stay']
             destination.budget = data['budget']
@@ -114,6 +115,7 @@ class Destination(Resource):
             destination.airport = data['airport']
             destination.price = data['price']
             destination.time_of_flight = data['time_of_flight']
+            
 
         destination.save_to_db()
         return destination.json()

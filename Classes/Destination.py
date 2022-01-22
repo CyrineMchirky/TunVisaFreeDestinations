@@ -29,7 +29,7 @@ class DestinationModel(db.Model):
         self.region_id=region_id
 
     def json(self):
-        return{'name':self.name, 'Visa_Requirement':self.Visa_requirements,
+        return{'name':self.name, 'Visa_Requirements':self.Visa_requirements,
         'Allowed_Stay':self.Allowed_stay, 'budget':self.budget,
         'vaccines':self.vaccines, 'Airport':self.airport,
         'price':self.price, 'time_of_flight':self.time_of_flight}
