@@ -17,10 +17,10 @@ class Destination(Resource):
     
 
     
-    parser.add_argument('destination_id',
+    parser.add_argument('region_id',
         type=int,
         required=True,
-        help="This field cannot be left blank! Please enter an id for this destination."
+        help="This field cannot be left blank! Please enter the region id for this destination."
     )
     
     parser.add_argument('Visa_requirement',
