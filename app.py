@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:theWebService99@db.emvjzikhqhijkhgmpciw.supabase.co:6543/postgres' #'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 app.secret_key = 'Cyrina is trying her best'
 api = Api(app)
