@@ -8,7 +8,7 @@ from Resources.user import UserRegister
 from Resources.Destination import Destination, DestinationList
 from Resources.Region import Region, RegionList
 from db import db
-
+import os
 app = Flask(__name__)
 
 
@@ -37,6 +37,6 @@ api.add_resource(UserRegister, '/register')
 from db import db
 db.init_app(app)  
 
-
-#if __name__ == '__main__':
-#    app.run(debug=True, host='0.0.0.0')  
+if os.getenv("ENV_CONFIG") != "production":
+    if __name__ == '__main__':
+        app.run(debug=True, host='0.0.0.0')  
