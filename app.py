@@ -36,6 +36,7 @@ api.add_resource(UserRegister, '/register')
 
 from db import db
 db.init_app(app)  
-from waitress import serve
-serve(app, host="0.0.0.0", port=5000)
-#app.run(debug=True)  
+
+
+#if __name__ == '__main__':
+#    app.run(debug=True, host='0.0.0.0')  
