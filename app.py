@@ -1,3 +1,4 @@
+from multiprocessing import connection
 from charset_normalizer import api
 from flask import Flask, app
 from flask_restful import Api
@@ -10,10 +11,18 @@ from Resources.Region import Region, RegionList
 from db import db
 import os
 app = Flask(__name__)
+connectionURL = ""
+if os.path.isfile('./envsecrets.py'):
+    from envsecrets import DB_URL
+    connectionURL = DB_URL
+elif os.getenv("DB_URL"):
+    connectionURL = os.getenv("DB_URL")
+else:
+    raise "no connectionURL for database specified"
 
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:theWebService99@db.emvjzikhqhijkhgmpciw.supabase.co:6543/postgres' #'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = connectionURL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 app.secret_key = 'Cyrina is trying her best'
 api = Api(app)
