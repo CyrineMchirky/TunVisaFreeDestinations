@@ -80,7 +80,7 @@ class Destination(Resource):
         
         try:
             destination.save_to_db()
-        except:
+        except :
             return{"message": "An error occured when adding the destination"}, 500 
 
         return destination.json(), 201
@@ -99,15 +99,15 @@ class Destination(Resource):
     @jwt_required()
     def put(self, name):
         
-        print(self.parser.parse_args(), file=sys.stderr)
+        
         destination = DestinationModel.find_by_name(name)
         
         if destination is None:
             data = self.parser.parse_args()
             destination = DestinationModel(name, **data)
         else:
-            data = destination.parser.parse_args()
             data = self.parser.parse_args()
+            destination.region_id = data['region_id'] 
             destination.Visa_requirements = data['Visa_requirements']
             destination.Allowed_stay = data['Allowed_stay']
             destination.budget = data['budget']
